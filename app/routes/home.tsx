@@ -1,8 +1,10 @@
 import { resumes } from "constants/index";
 import type { Route } from "./+types/home";
 import Navbar from "~/components/Navbar";
-import { callbackify } from "util";
 import ResumeCard from "~/components/ResumeCard";
+import { usePuterStore } from "~/lib/puter";
+import { Link, useNavigate } from "react-router";
+import { useEffect, useState } from "react";
 
 
 export function meta({ }: Route.MetaArgs) {
@@ -13,6 +15,14 @@ export function meta({ }: Route.MetaArgs) {
 }
 
 export default function Home() {
+  const { auth } = usePuterStore();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!auth.isAuthenticated) navigate('/auth?next=/');
+  }, [auth.isAuthenticated])
+
+
   return <main className="bg-[url('/images/bg-main.svg')] bg-cover">
     <Navbar></Navbar>
     <section className="main-section">
@@ -34,7 +44,6 @@ export default function Home() {
     </section>
 
 
-/*https://youtu.be/iYOz165wGkQ?list=LL&t=2071*/
 
 
 
@@ -42,3 +51,6 @@ export default function Home() {
 
   </main>;
 }
+
+
+/*  https://youtu.be/iYOz165wGkQ?list=LL&t=3079  */
